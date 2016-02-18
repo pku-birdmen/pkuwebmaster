@@ -1,0 +1,64 @@
+Received: from smtpbg253.qq.com (unknown [183.60.52.97])
+	by mx16 (Coremail) with SMTP id xMmowEB5UkQb2CpSBk5JAA--.7581S2;
+	Sat, 07 Sep 2013 15:39:10 +0800 (CST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qq.com; s=s201307;
+	t=1378539543; bh=Vww/wZkgUNLj8/EkYX3Ov6RTDyk+h4jNRCxvTjLAC5M=;
+	h=X-QQ-SSF:X-HAS-ATTACH:X-QQ-BUSINESS-ORIGIN:X-Originating-IP:
+	 X-QQ-STYLE:X-QQ-mid:From:To:Subject:Mime-Version:Content-Type:
+	 Content-Transfer-Encoding:Date:X-Priority:Message-ID:X-QQ-MIME:
+	 X-Mailer:X-QQ-Mailer:X-QQ-SENDSIZE;
+	b=W60k0yqVZV9aNZNSEnTiRnGvef4vUJlq3hGGj3kd6IrJzZKbFaVMjZ4yw2ssMecfP
+	 mE1rsWxQIXlU//F8x5bgKVmy0Qx3nSyTm67B+GIpSSG8aLXKepQ6MzXGUXe5Q0meqV
+	 7TUnYyeNnm7lkmpbAnoS0E5TkdpI/AhzVSjQN1bE=
+X-QQ-SSF: 000000000000000000000000000000W
+X-HAS-ATTACH: no
+X-QQ-BUSINESS-ORIGIN: 2
+X-Originating-IP: 162.105.124.153
+X-QQ-STYLE: 
+X-QQ-mid: webmail95t1378539542t7621517
+From: "=?gb18030?B?TWF2aXM=?=" <24735895@qq.com>
+To: "=?gb18030?B?eWFuZ2p2bg==?=" <yangjvn@126.com>
+Subject: =?gb18030?B?UEtVd2VibWFzdGVyzt63qNX9s6PKudPD?=
+Mime-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_522AD816_08DEFCE8_750EEC4B"
+Content-Transfer-Encoding: 8Bit
+Date: Sat, 7 Sep 2013 15:39:02 +0800
+X-Priority: 1
+Message-ID: <tencent_586657073480C4B22EF222DE@qq.com>
+X-QQ-MIME: TCMime 1.0 by Tencent
+X-Mailer: QQMail 2.x
+X-QQ-Mailer: QQMail 2.x
+X-QQ-SENDSIZE: 520
+X-CM-TRANSID:xMmowEB5UkQb2CpSBk5JAA--.7581S2
+Authentication-Results: mx16; spf=pass smtp.mail=24735895@qq.com; dkim
+	=pass header.i=@qq.com
+X-Coremail-Antispam: 1Uf129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7v73
+	VFW2AGmfu7bjvjm3AaLaJ3UbIYCTnIWIevJa73UjIFyTuYvjxU-0eHUUUUU
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_522AD816_08DEFCE8_750EEC4B
+Content-Type: text/plain;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
+
+zazRp8TjusOjrA0KDQrO0tK71rHU2sq508NQS1V3ZWJtYXN0ZXKjrL3xzOzL/LP2z9bBy9K7
+0KnOyszioaOyu7ncteO798Pit9HBrL3Tu7nKx8rVt9HBrL3TtrzP1Mq+way907OsyrGjrL/J
+0tS2z7+qway906OstavKx8q1vMrJz8v8sqLDu9PQ1ebV/bbPv6rBrL3To6zS8s6qts+/qtau
+uvPO0ru5v8nS1NX9s6PJz834oaPO0tLRvq3L/Mm+s/3W2NDCsLLXsMHLo6y7ucrHs/bP1tXi
+0fm1xM7KzOKjrMfrzsrT0L3ivvaw7LeowvCjvw==
+
+------=_NextPart_522AD816_08DEFCE8_750EEC4B
+Content-Type: text/html;
+	charset="gb18030"
+Content-Transfer-Encoding: base64
+
+zazRp8TjusOjrDxkaXY+PGJyPjwvZGl2PjxkaXY+ztLSu9ax1NrKudPDUEtVd2VibWFzdGVy
+o6y98czsy/yz9s/WwcvSu9CpzsrM4qGjsru53LXju/fD4rfRway907u5ysfK1bfRway907a8
+z9TKvsGsvdOzrMqxo6y/ydLUts+/qsGsvdOjrLWrysfKtbzKyc/L/LKiw7vT0NXm1f22z7+q
+way906Os0vLOqrbPv6rWrrrzztK7ub/J0tTV/bOjyc/N+KGjztLS0b6ty/zJvrP91tjQwrCy
+17DBy6Osu7nKx7P2z9bV4tH5tcTOyszio6zH687K09C94r72sOy3qMLwo788L2Rpdj4=
+
+------=_NextPart_522AD816_08DEFCE8_750EEC4B--
+

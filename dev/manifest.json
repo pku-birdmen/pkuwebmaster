@@ -1,0 +1,25 @@
+﻿{
+	"name": "PKUwebmaster（北京大学网关插件）",
+	"version": "1.0.6",
+	"manifest_version": 2,
+	"description": "Best-ever PKU gateway widget, by Harttle, Rea and Mr.S. 最好的网关插件在北大。",
+	"icons": { "16": "icon16.png",
+           "48": "icon48.png",
+          "128": "icon128.png" },
+	"options_page": "options/options.html",
+	"background": { "scripts": ["background/background.js"] },
+	"browser_action": 
+	{
+		"default_icon": "icon19.png",
+		"default_popup": "popup/popup.html"
+	},
+	"permissions": [
+		"https://its.pku.edu.cn:5428/",
+		"notifications"
+	],
+	"web_accessible_resources": [
+		"background/disc.ico",
+		"background/succ.ico",
+		"background/busy.ico"
+	]
+}

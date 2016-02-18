@@ -1,0 +1,25 @@
+PKUwebmaster发布了！
+第一款北大网关的chrome客户端插件。
+Harttle and Rea @ Birdmen
+
+Passion for Google Chrome
+    这个08年发布的浏览器至12年5月已经拥有33%的市场份额，超越IE成为全球第一大浏览器。其内核、外观的设计原则却是令人折服。
+    简洁的外观使其与360浏览器、搜狗浏览器泾渭分明，或许这正是很多人开始使用chrome的原因。
+    出色的安全性和性能成功地吸引了多数的用户。用户关心的事情在chrome中都处理地非常出色：主页从不会被恶意软件修改，即使是添加迅雷支持也要在chrome中确认。
+    chrome出色的稳定性归功于严格的权限控制：在chrome中的操作都本着最小权限原则，标签页都作为独立sandbox，甚至flash player和pdf reader都被严格限制在sandbox中……
+    源码调试功能想必是众多程序员&geek的最爱。开放的API和方便的调试工具使chrome非常容易扩展，而能满足用户绝大多数需求。
+
+PKUwebmaster的初衷
+p大的IPGW在linux和android都已非常方便，而windows下的IPGW却非常的卡；
+由于宿舍共用路由器，IPGW的关机断网功能经常造成麻烦。
+
+PKUwebmaster的特色
+支持收费/免费地址的连接、断开，并提示余额等信息。
+在网络从硬件上断开的情况会有很快响应。
+已上传至chrome商店：https://chrome.google.com/webstore/detail/bnlipdfmheddpljigcaaamjpnbhhklkb
+
+PKUwebmaster的安全性
+1.密码使用html5的localStorage（取代cookie）存储。js本地存储面临XSS攻击，而chrome extension中js与html分离的安全策略可以避免恶意代码注入，对XSS而言是安全的。
+2.因its只公开了这样的接口，密码明文发送。可能被经过的路由节点截获，在p大校内上网如果认为教室的路由器是安全的，就只存在局域网安全问题。
+
+欢迎Bug提出与修正！请联系yangjvn@126.com

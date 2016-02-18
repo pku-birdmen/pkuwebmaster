@@ -1,0 +1,1 @@
+http://162.105.67.5/ipgw/ipgw.ipgw?uid=00904026&password=&timeout=1&range=2&operation=connect

@@ -1,0 +1,352 @@
+﻿<!DOCTYPE html>
+<!-- saved from url=(0070)chrome-extension://keigpnkjljkelclbjbekcfnaomfodamj/views/options.html -->
+<!-- largest pizza in Beijing，最大的披萨在北京 那就是 站点 Tubestationpizza   作者之最爱 哈哈哈 -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title rel="i18n[title]">PKUwebmaster设置</title>
+<style>
+
+
+body {
+  margin:0px 20% 200px 20%;
+  font-size: 14px;
+  font-family: "微软雅黑", "Microsoft YaHei", Verdana, Geneva, sans-serif;
+  background: #d4eef7;
+}
+
+.logo {
+  float: left;
+  width: 270px;
+  height: 48px;
+  padding: 5px 10px 15px 10px;
+
+  border: 3px solid #a9e0f5;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 0 7px #a9e0f5;
+  background: white;
+}
+
+.container {
+  height: 300px;
+  padding: 25px;
+  position:relative;
+  top:10px;
+  border: 3px solid #a9e0f5;
+  border-radius: 15px;
+  background: white;
+  overflow: hidden;
+  box-shadow: 0 0 7px #a9e0f5;
+}
+
+.style1{
+	border: 2px solid #a9e0f5;
+	border-radius: 5px;
+	background:#fff;
+	color:#000;
+	padding:1px 7px;
+	font-size: 13px;
+	font-family: "微软雅黑", "Microsoft YaHei", Verdana, Geneva, sans-serif;
+  }
+
+.style2{
+	border: 2px solid #a9e0f5;
+	border-radius: 5px;
+	background:#fff;
+	color:#a9e0f5;
+	padding:1px 7px;
+	font-size: 13px;
+	font-family: "微软雅黑", "Microsoft YaHei", Verdana, Geneva, sans-serif;
+  }
+  
+.footerfont{
+	color:#d4eef7;
+	font-size:"2";
+	text-align:center
+}
+
+.input_1{
+	border:2px solid #ccc;
+	border-radius: 4px;
+	background:#fff;
+	color:#000;
+  }  
+
+.input_2{
+	border:2px solid #a9e0f5;
+	border-radius: 4px;
+	background:#fff;
+	color:#000;
+  }  
+  
+.input_3{
+	border:2px solid #a9e0f5;
+	border-radius: 4px;
+	background:#ccc;
+	color:#000;
+  }  
+  
+  h1 img {
+  vertical-align: middle;
+  margin-right: 10px;
+}
+
+.links {
+  color:#4ca7ee;
+  float: right;
+  position:relative;
+  top:25px;
+	
+}
+
+#links a, #links iframe {
+  vertical-align: middle;
+  margin-right: 5px;
+}
+
+a, a:visited {
+  color: #4ca7ee;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+#header {
+  overflow: hidden;
+  height: 80px;
+  margin: 0 auto;
+}
+
+h2#options-text {
+  width: 100px;
+  height: 20px;
+  color: #8dbede;
+  font-size: 120%;
+  margin-bottom: 9px;
+  margin-top: 14px;
+  position:relative;
+  left:5%;
+  }
+
+h2#footer {
+  width: 40px;
+  height: 8px;
+  color: #8dbede;
+  font-size: 48%;
+  margin-bottom: 10px;
+  margin: 0 auto;
+  
+}
+
+
+h3, ul {
+  display: inline-block;
+  font-size: 14px;
+  font-weight: normal;
+  vertical-align: top;
+  margin-right: 20px;
+}
+
+#country-list {
+  width: 500px;
+}
+
+
+.section {
+  padding: 20px 0;
+  border-bottom: 2px ;
+  position:relative;
+  left:5%
+}
+
+#store-container > li {
+  margin-bottom: 10px;
+}
+
+.stores li {
+  display: inline-block;
+}
+
+ul, li {
+  list-style: none;
+}
+
+input {
+  margin-right: 5px;
+}
+
+ul.list li *, ul.stores li * {
+  vertical-align: middle;
+}
+
+.jiathis_txt {
+  font-size: 0 !important;
+  margin-left: 0 !important;
+}
+
+.tsina {
+  padding-left: 20px;
+  background: transparent url(http://www.sinaimg.cn/blog/developer/wiki/LOGO_16x16.png) 0 center no-repeat;
+}
+
+#feedback {
+  padding-left: 20px;
+  background: transparent url(../assets/images/feedback_icon.png) 0 center no-repeat;
+}
+
+#share-wrapper {
+  padding-top: 20px;
+}
+
+#add-this-wrapper {
+  display: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  height: 32px;
+  width: 400px;
+}
+
+#share-to-text {
+  float: left;
+  padding-top: 5px;
+  padding-right: 10px;
+}
+
+#ckepop {
+  display: inline-block;
+}
+
+#jia-this-wrapper span {
+  vertical-align: middle;
+}
+
+#other-extensions {
+  margin: 0 auto;
+  width: 756px;
+}
+
+#other-extensions iframe {
+  background: white;
+  border: none;
+  border-radius: 10px;
+}
+
+.share-to-buttons {
+  margin-right: 40px;
+}
+
+button {
+  padding: 0 10px;
+  margin: 0;
+  border: 1px solid #e3e3e3;
+  border-radius: 5px;
+  height: 30px;
+  background: -webkit-linear-gradient(top, white, #e3e3e3);
+  background: -o-linear-gradient(top, white, #e3e3e3);
+  cursor: pointer;
+}
+
+button:hover {
+  background: -webkit-linear-gradient(bottom, white, #e3e3e3);
+  background: -o-linear-gradient(bottom, white, #e3e3e3);
+}
+
+label {
+  padding-right: 10px;
+}
+
+.list li {
+  list-style: none;
+  float: left;
+  margin-right: 20px;
+}
+
+.clearfix:after {
+  content: "\0020";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+#cn-settings .setting-item {
+  margin-top: 20px;
+}
+
+#se-list {
+  width: 500px;
+}
+</style>
+<script src="options.js" charset="utf-8"></script>
+
+</head>
+
+<!--主题部分开始-->
+<body>
+
+<div id="header">
+  <a class="logo" href="http://its.pku.edu.cn/" target="_blank" title="点此链接北大网络服务网站" tabindex="-1">
+    <img src="pku_title.png" alt="北大网络服务" />
+ </a>
+	<p class="links" id="contact" target="_blank" title="联系我们">联系我们</p>
+</div>
+
+<div class="container">
+  <h2 id="options-text" rel="i18n[options]">设置：</h2>
+
+
+  <div class="section">
+  <table>
+      <tr>
+        <td title="请输入北京大学网关账户（学号）">账号：</td>
+        <td><input type="text" id="user" tabindex="1" class="input_1"/></td>
+      </tr>
+      <tr>
+          <td title="请输入账户（学号）所对应密码">密码：</td>
+          <td ><input type="password" id="passwd" tabindex="2"  class="input_1"/></td>
+      </tr>
+        <tr>
+            <td id="status"></td>
+            <td align="right"  >
+			<br/>
+                <input type="button" id="reset" class="style1" value="还原" title="还原为上次保存设置" tabindex="3"/>
+				<input type="button" id="save" class="style1" value="保存" title="保存本次设置" tabindex="4"/>
+				
+			
+            </td>
+        </tr>
+    </table>
+	<br /> 
+	<br /> 
+
+</div>
+
+<!--  <h6 style="text-align:center"  id="home"><a href="http://weibo.com/playerrea" color="#d4eef7"><font size="2" color="#d4eef7" title="Birdmen的Harttle为大家编好了代码，Rea帮Harttle做了这个说明页，感谢大家使用哦！">Harttle&Rea @Birdmen</font><a/></h2>
+ -->
+</br> 
+
+
+<h4 style="text-align:center"  id="home" class="footerfont" title="Birdmen的Harttle和Rea做了这个小插件（感谢计算中心的Mr.Song的帮助），谢谢大家使用哦！">
+	<a href="http://weibo.com/u/1895931587" style="color:#d4eef7" target="_blank" title="Harttleの宅" tabindex="-1">
+		Harttle
+	</a>
+	&amp;
+	<a href="http://weibo.com/playerrea" style="color:#d4eef7" target="_blank" title="Rea的小窝" tabindex="-1" >
+	Rea
+	</a>
+		@Birdmen
+
+</h4>
+
+
+
+<!--   去掉落后的font，改用样式 -->
+
+</div>
+
+</body></html>
