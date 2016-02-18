@@ -3,9 +3,9 @@
 
 var user, passwd, welcome, operation, state;
 
-window.onload = function () {
-    user = localStorage["user"];
-    passwd = localStorage["passwd"];
+window.onload = function() {
+    user = localStorage.user;
+    passwd = localStorage.passwd;
 
     welcome = document.getElementById("welcome");
     operation = document.getElementById("operation");
@@ -16,29 +16,39 @@ window.onload = function () {
         welcome.style.display = '';
         operation.style.display = 'none';
         state.style.display = 'none';
-        localStorage["state"] = "未连接"
-    }
-    else {
+        localStorage.state = "未连接";
+    } else {
         welcome.style.display = 'none';
         operation.style.display = '';
         state.style.display = '';
 
         bindonclick('free', "正在连接到免费...");
         bindonclick('global', "正在连接到收费...");
-        bindonclick('disconnect',"正在断开...");
+        bindonclick('disconnect', "正在断开...");
         update_state();
     }
 };
 
 function update_state() {
-    state.innerHTML = "状态：" + localStorage["state"];
+    state.innerHTML = "状态：" + localStorage.state;
 }
 
-function bindonclick(btname,szstate) {
+function bindonclick(btname, szstate) {
     bt = document.getElementById(btname);
-    bt.addEventListener('click', function () {
-        localStorage["state"] = szstate;
-        chrome.extension.sendRequest({ connect_operation: btname }, function (resp) { update_state(); });
+    bt.addEventListener('click', function() {
+        localStorage.state = szstate;
+        chrome.extension.sendRequest({
+            connect_operation: btname,
+            method: 'operation'
+        }, function(resp) {
+            update_state();
+        });
         update_state();
     });
 }
+
+chrome.extension.sendRequest({
+    method: 'closing'
+}, function() {
+    window.close();
+});

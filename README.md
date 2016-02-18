@@ -1,6 +1,6 @@
 # PKUwebmaster
 
-PKU IPGW Chrome Extension, by Rea & Harttle
+PKU IPGW Chrome Extension, by Harttle, Rea and Mr.S. 
 
 北京大学网关Chrome插件，欢迎Folk。
 
@@ -8,7 +8,7 @@ PKU IPGW Chrome Extension, by Rea & Harttle
 
 # 文件目录
 
-* dev: 项目文件夹，可用来载入和安装
+* src: 源码，可用来载入和安装
 
 * bug: 历次bug反馈
 

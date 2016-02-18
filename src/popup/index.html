@@ -1,0 +1,29 @@
+﻿<!doctype html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>PKU Gateway</title>
+  <link href="../public/css/btn.css" rel="stylesheet">
+  <link href="popup.css" rel="stylesheet">
+  <script src="popup.js"></script>
+</head>
+
+<body>
+  <div id="welcome">
+    <p>欢迎使用Pku网关，请先
+      <a target="_blank" href="chrome-extension://bnlipdfmheddpljigcaaamjpnbhhklkb/options/options.html">完善设置</a>。
+    </p>
+  </div>
+
+  <div id="operation">
+    <a class="btn btn-block btn-primary" id="free"> 连接到免费 </a>
+    <a class="btn btn-block btn-success" id="global"> 连接到收费 </a>
+    <a class="btn btn-block btn-danger" id="disconnect"> 断开所有连接 </a>
+
+    <p><small class="text-muted" id="state"></small></p>
+  </div>
+
+</body>
+
+</html>

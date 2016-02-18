@@ -1,0 +1,100 @@
+/* Basic */
+
+body {
+  font-size: 14px;
+  font-family: "微软雅黑", "Microsoft YaHei", Verdana, Geneva, sans-serif;
+  background: #d4eef7;
+}
+
+a,
+a:visited {
+  color: #4ca7ee;
+  text-decoration: none;
+  cursor: pointer;
+  font-style: italic;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+/* Header */
+
+header {
+  margin-top: 20px;
+}
+
+header .brand {
+  color: #49A6EC;
+  display: inline-block;
+}
+
+header .brand .title {
+  margin-bottom: 0;
+}
+
+header .brand .title strong {
+  font-size: 30px;
+  margin-right: 10px;
+  font-style: italic;
+}
+
+header .brand .title span {
+  font-size: 22px;
+}
+
+header .brand .description {
+  text-align: right;
+  font-size: 14px;
+  color: #7EB4DC;
+}
+
+header .links {
+  line-height: 72px;
+}
+
+header .links a {
+  text-decoration: underline;
+  margin-left: 10px;
+}
+
+
+/* Panel */
+
+section.main {
+  margin-top: 20px;
+}
+
+section.main .form {
+  max-width: 320px;
+  margin: 50px auto;
+}
+section.main .form .alert:empty{
+  display: none;
+}
+section.main .form .btn{
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+section.main h2{
+  color: #49A6EC;
+  font-size: 16px;
+}
+
+/* Credit */
+section.credit{
+  color: #aaa;
+  font-size: 13px;
+  text-align: center;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
+section.credit a{
+  color: #aaa;
+}
+section.credit a:hover{
+  color: #555;
+}
