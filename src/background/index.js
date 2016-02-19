@@ -93,7 +93,7 @@ function showNotification(icon, title, text) {
 //connect result
 function connect_callback() {
     var info = get_info_from_response(req.responseText),
-        icon = "icon.ico", text;
+        icon = "icon.ico", text = "";
 
     if (info.SUCCESS == "YES") {
         switch (cur_operation) {
