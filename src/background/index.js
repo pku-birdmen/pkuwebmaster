@@ -99,16 +99,16 @@ function connect_callback() {
         switch (cur_operation) {
             case "free":
                 localStorage.state = "网络连接成功（免费）";
-                text = "用户：" + info.USERNAME + '\n' +
-                    "余额：" + info.BALANCE + '元\n' +
+                text = "用户：" + info.USERNAME + "\n" +
+                    "余额：" + info.BALANCE + "元\n" +
                     "IP：" + info.IP;
                 icon = "background/succ.ico";
                 break;
             case "global":
                 localStorage.state = "网络连接成功（收费）";
-                text = "用户：" + info.USERNAME + '\n' +
-                    "余额：" + info.BALANCE + '元\n' + 
-                    "IP：" + info.IP;
+                text = "用户：" + info.USERNAME + "\n" +
+                    "余额：" + info.BALANCE + "元\n" + 
+                    "IP：" + info.IP  + "\n" + "包月累计时长：" + info.TOTAL_TIME;
                 icon = "background/succ.ico";
                 break;
             case "disconnect":
