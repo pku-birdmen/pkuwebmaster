@@ -42,7 +42,7 @@ function ipgwclient(operation) {
             return;
     }
     req = new XMLHttpRequest();
-    req.timeout = 3000;
+    req.timeout = 7000;
     req.open("GET", "https://its.pku.edu.cn:5428/ipgatewayofpku?" + "uid=" + localStorage.user + "&password=" + localStorage.passwd + "&timeout=1&range=" + range + "&operation=" + oper, "true");
     req.onload = connect_callback;
     req.ontimeout = error_timeout;
