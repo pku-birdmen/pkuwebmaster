@@ -6,18 +6,6 @@ body {
   background: #d4eef7;
 }
 
-a,
-a:visited {
-  color: #4ca7ee;
-  text-decoration: none;
-  cursor: pointer;
-  font-style: italic;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 
 /* Header */
 
@@ -53,12 +41,6 @@ header .brand .description {
 header .links {
   line-height: 72px;
 }
-
-header .links a {
-  text-decoration: underline;
-  margin-left: 10px;
-}
-
 
 /* Panel */
 

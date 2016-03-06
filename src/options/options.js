@@ -42,8 +42,7 @@ function restore_options() {
 // show status
 function update_status(status_str) {
     var status = document.getElementById("status");
-    var temp = status_str;
-    status.innerHTML = temp.fontcolor("#8dbede").bold();
+    status.innerHTML = status_str;
     setTimeout(function() {
         status.innerHTML = "";
     }, 2000);
