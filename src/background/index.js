@@ -84,9 +84,8 @@ function showNotification(icon, title, text) {
     notification.replaceId = "connect_result";
     notification.onshow = function(event) {
         setTimeout(function() {
-            //event.currentTarget.cancel();
             notification.close();
-        }, 5 * 1000);
+        }, 7 * 1000);
     };
 }
 
@@ -108,8 +107,9 @@ function connect_callback() {
                 localStorage.state = "网络连接成功（收费）";
                 text = "用户：" + info.USERNAME + "\n" +
                     "余额：" + info.BALANCE + "元\n" + 
-                    "IP：" + info.IP  + "\n" + 
-                    "包月累计时长：" + info.TOTAL_TIME;
+                    "IP：" + info.IP;
+                if(info.TOTAL_TIME) // 包月不限时，此字段为空
+                    text += '\n' + "包月累计时长：" + info.TOTAL_TIME;
                 icon = "background/succ.ico";
                 break;
             case "disconnect":

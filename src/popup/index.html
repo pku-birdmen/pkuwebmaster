@@ -12,7 +12,7 @@
 <body>
   <div id="welcome">
     <p>欢迎使用PKU网关，请先
-      <a target="_blank" href="../options/index.html">完善设置</a>
+      <a tabindex="-1" target="_blank" href="../options/index.html">完善设置</a>
     </p>
   </div>
 
@@ -21,7 +21,10 @@
     <a class="btn btn-block btn-success" id="global"> 连接到收费 </a>
     <a class="btn btn-block btn-danger" id="disconnect"> 断开所有连接 </a>
 
-    <p><small class="text-muted" id="state"></small></p>
+    <p id="bottom">
+      <small class="text-muted" id="state"></small>
+      <a tabindex="-1" target="_blank" href="../options/index.html">设置</a>
+    </p>
   </div>
 
 </body>

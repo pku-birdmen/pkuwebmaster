@@ -22,15 +22,15 @@ window.onload = function() {
         operation.style.display = '';
         state.style.display = '';
 
-        bindonclick('free', "正在连接到免费...");
-        bindonclick('global', "正在连接到收费...");
+        bindonclick('free', "正在连接...");
+        bindonclick('global', "正在连接...");
         bindonclick('disconnect', "正在断开...");
         update_state();
     }
 };
 
 function update_state() {
-    state.innerHTML = "状态：" + localStorage.state;
+    state.innerHTML = localStorage.state;
 }
 
 function bindonclick(btname, szstate) {

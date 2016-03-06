@@ -17,3 +17,6 @@ body {
   margin-top: 10px;
 }
 
+#bottom a{
+  float: right;
+}
