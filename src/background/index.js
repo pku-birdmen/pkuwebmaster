@@ -19,7 +19,6 @@ var req, response_handle, cur_operation, closing_handle,
         international: "收费地址",
         YES: "是",
         NO: "否",
-        TOTAL_TIME: "累计时长"
     };
 
 function ipgwclient(operation) {
