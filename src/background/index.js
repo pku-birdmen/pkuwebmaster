@@ -62,9 +62,6 @@ function get_info_from_response(response) {
             connect_info[tmp[0]] = tmp[1];
     }
 
-    //get TOTAL_TIME
-    tmp = response.split("包月累计时长：</td><td>");
-    if (tmp.length > 1) connect_info.TOTAL_TIME = tmp[1].split("</td></tr>")[0];
     //parse REASON
     connect_info.REASON = connect_info.REASON && connect_info.REASON.replace("<br>", " ");
 
@@ -108,8 +105,8 @@ function connect_callback() {
                 text = "用户：" + info.USERNAME + "\n" +
                     "余额：" + info.BALANCE + "元\n" + 
                     "IP：" + info.IP;
-                if(info.TOTAL_TIME) // 包月不限时，此字段为空
-                    text += '\n' + "包月累计时长：" + info.TOTAL_TIME;
+                if(info.FR_TIME) // 包月不限时时，FR_TIME字段不存在
+                    text += '\n' + "包月累计时长：" + info.FR_TIME + "小时";
                 icon = "background/succ.ico";
                 break;
             case "disconnect":
