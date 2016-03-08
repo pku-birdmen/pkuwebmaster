@@ -18,7 +18,7 @@ var req, response_handle, cur_operation, closing_handle,
         domestic: "免费地址",
         international: "收费地址",
         YES: "是",
-        NO: "否",
+        NO: "否"
     };
 
 function ipgwclient(operation) {
