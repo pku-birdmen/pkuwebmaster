@@ -105,7 +105,7 @@ function connect_callback() {
                 text = "用户：" + info.USERNAME + "\n" +
                     "余额：" + info.BALANCE + "元\n" + 
                     "IP：" + info.IP;
-                if(info.FR_TIME) // 包月不限时时，FR_TIME字段不存在
+                if(info.FR_TIME) //包月不限时时，FR_TIME字段不存在
                     text += '\n' + "包月累计时长：" + info.FR_TIME + "小时";
                 icon = "background/succ.ico";
                 break;
