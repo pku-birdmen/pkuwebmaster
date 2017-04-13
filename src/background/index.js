@@ -20,6 +20,70 @@ var req, response_handle, cur_operation, closing_handle,
         YES: "是",
         NO: "否"
     };
+var unreadmails = 0;
+function ipgwNew(operation){
+    cur_operation = operation;
+    var range, oper, cmd;
+
+    
+
+    var boom = new XMLHttpRequest();
+    boom.open("GET", "https://its.pku.edu.cn/", "false");
+    boom.send(null);
+    boom.onload = function(){
+        op_login(operation);
+        };
+}
+
+function op_login(operation){
+    var loginArgs = "&username=" + localStorage.user + "&password=" + localStorage.passwd + "&iprange=no";
+    var login = new XMLHttpRequest();
+    login.open("POST", "https://its.pku.edu.cn/cas/webLogin", "false");
+    login.send(loginArgs);
+
+    login.onload = function(){
+        if(operation == "free")
+            op_connect();
+        if(operation == "global")
+            op_disconnect();
+        if(operation == "disconnect")
+            op_disconnectall();
+        op_checkmail();
+        op_getinfo();
+        };
+}
+
+function op_connect(){
+    req = new XMLHttpRequest();
+    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=open&type=fee", "false");
+    req.send(null);
+}
+function op_disconnect(){
+    req = new XMLHttpRequest();
+    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=close&type=self", "false");
+    req.send(null);
+}
+function op_disconnectall(){
+    req = new XMLHttpRequest();
+    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=close&type=all", "false");
+    req.send(null);
+}
+function op_checkmail(){
+    var checkmail = new XMLHttpRequest();
+    checkmail.open("GET", "https://its.pku.edu.cn/netportal/checkmail", "false");
+    checkmail.send(null);
+    checkmail.onload = function(){
+        if(checkmail.responseText !== "0\n"){
+            unreadmails = parseInt(checkmail.responseText);
+            console.log(unreadmails);
+        }
+    }
+}
+function op_show(){
+    req = new XMLHttpRequest();
+    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=getconnections", "true");
+    req.send(null);
+}
 
 function ipgwclient(operation) {
     cur_operation = operation;
@@ -66,7 +130,37 @@ function get_info_from_response(response) {
 
     return connect_info;
 }
+function op_getinfo(){
+    var status = new XMLHttpRequest();
+    status.open("GET", "https://its.pku.edu.cn/netportal/ipgwResult.jsp", "false");
+    status.send(null);
+    status.onload = function(){
+        var stat = status.responseText;
+        parseResponse(stat);
+    }
+}
 
+function parseResponse(response) {
+    var infos = response, connect_info = [], tmps, tmpe;
+    tmps = response.search("姓　　名：");
+    tmpe = tmps+25;
+    while(infos[tmpe] != '<')
+        tmpe++;
+    connect_info.USERNAME = infos.substring(tmps + 25, tmpe);
+    tmps = response.search("当前地址：");
+    tmpe = tmps+25;
+    while(infos[tmpe] != '<')
+        tmpe++;
+    connect_info.IP = infos.substring(tmps + 25, tmpe);
+    tmps = response.search("账户余额：");
+    tmpe = tmps+25;
+    while(infos[tmpe] != '<')
+        tmpe++;
+    connect_info.BALANCE = infos.substring(tmps + 25, tmpe);
+    console.log(connect_info.USERNAME);
+    console.log(connect_info.IP);
+    console.log(connect_info.BALANCE);
+}
 
 function showNotification(icon, title, text) {
     if (!Notification) return alert('您的浏览器不支持桌面通知');
@@ -115,6 +209,8 @@ function connect_callback() {
                 text = "IP：" + info.IP;
                 icon = "background/disc.ico";
                 break;
+            if(unreadmails !== 0)
+                text += "\n" + "您有" + unreadmails + "条未读邮件";
         }
     } else {
         text += "原因：" + info.REASON;
@@ -170,7 +266,8 @@ chrome.extension.onRequest.addListener(
         if(request.method === 'operation'){
             response_handle = sendResponse;
             if (request.connect_operation) {
-                ipgwclient(request.connect_operation);
+                //ipgwclient(request.connect_operation);
+                ipgwNew(request.connect_operation);
             }
         }
         else if(request.method === 'closing'){
