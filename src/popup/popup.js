@@ -22,9 +22,9 @@ window.onload = function() {
         operation.style.display = '';
         state.style.display = '';
 
-        bindonclick('free', "正在连接...");
-        bindonclick('global', "正在连接...");
-        bindonclick('disconnect', "正在断开...");
+        bindonclick('connect', "正在连接...");
+        bindonclick('disconnet', "正在断开...");
+        bindonclick('disconnectall', "正在断开全部连接...");
         update_state();
     }
 };

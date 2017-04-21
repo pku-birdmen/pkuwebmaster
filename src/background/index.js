@@ -2,134 +2,89 @@
 // author: harttle
 // Popup can be closed anytime, async job should be done here.
 
-var req, response_handle, cur_operation, closing_handle,
-    mappings = {
-        SUCCESS: "状态",
-        IP: "IP",
-        CONNECTIONS: "连接数",
-        REASON: "原因",
-        STATE: "状态",
-        USERNAME: "用户",
-        SCOPE: "访问范围",
-        FIXRATE: "是否包月",
-        DEFICIT: "余额不足",
-        BALANCE: "余额",
-        MESSAGE: "备注",
-        domestic: "免费地址",
-        international: "收费地址",
-        YES: "是",
-        NO: "否"
-    };
+var req, responseHandler, currOperation, closingHandler;
 var unreadmails = 0;
-function ipgwNew(operation){
-    cur_operation = operation;
-    var range, oper, cmd;
 
-    
+function request(method, action, args) {
+    var mapping = {
+        'initialize': 'https://its.pku.edu.cn',
+        'login': 'https://its.pku.edu.cn/cas/webLogin',
+        'connect': 'https://its.pku.edu.cn/netportal/ITSipgw?cmd=open&type=fee',
+        'disconnect': 'https://its.pku.edu.cn/netportal/ITSipgw?cmd=close&type=self',
+        'disconnectall': 'https://its.pku.edu.cn/netportal/ITSipgw?cmd=close&type=all',
+        'checkmail': 'https://its.pku.edu.cn/netportal/checkmail',
+        'show': 'https://its.pku.edu.cn/netportal/ITSipgw?cmd=getconnections',
+        'getinfo': 'https://its.pku.edu.cn/netportal/ipgwResult.jsp'
+    };
 
-    var boom = new XMLHttpRequest();
-    boom.open("GET", "https://its.pku.edu.cn/", "false");
-    boom.send(null);
-    boom.onload = function(){
-        op_login(operation);
-        };
-}
-
-function op_login(operation){
-    var loginArgs = "&username=" + localStorage.user + "&password=" + localStorage.passwd + "&iprange=no";
-    var login = new XMLHttpRequest();
-    login.open("POST", "https://its.pku.edu.cn/cas/webLogin", "false");
-    login.send(loginArgs);
-
-    login.onload = function(){
-        if(operation == "free")
-            op_connect();
-        if(operation == "global")
-            op_disconnect();
-        if(operation == "disconnect")
-            op_disconnectall();
-        op_checkmail();
-        op_getinfo();
-        };
-}
-
-function op_connect(){
-    req = new XMLHttpRequest();
-    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=open&type=fee", "false");
-    req.send(null);
-}
-function op_disconnect(){
-    req = new XMLHttpRequest();
-    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=close&type=self", "false");
-    req.send(null);
-}
-function op_disconnectall(){
-    req = new XMLHttpRequest();
-    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=close&type=all", "false");
-    req.send(null);
-}
-function op_checkmail(){
-    var checkmail = new XMLHttpRequest();
-    checkmail.open("GET", "https://its.pku.edu.cn/netportal/checkmail", "false");
-    checkmail.send(null);
-    checkmail.onload = function(){
-        if(checkmail.responseText !== "0\n"){
-            unreadmails = parseInt(checkmail.responseText);
-            console.log(unreadmails);
+    var promise = new Promise(function(resolve, reject){
+        var request = new XMLHttpRequest();
+        request.open(method, mapping[action], 'false');
+        request.onload = onloadCallback;
+        request.timeout = 7000;
+        request.ontimeout = error_timeout;
+        request.onabort = error_abort;
+        request.onerror = error_error;
+        if (method === 'GET') {
+            request.send(null);
+        } else if (method === 'POST') {
+            request.send(args);
         }
+        function onloadCallback() {
+            if (this.status === 200) {
+                resolve(this.responseText);
+            } else {
+                reject(new Error(this.status + ' ' + this.statusText));
+            }
+        }
+        function error_timeout(evt) {
+            localStorage.state = "网络连接超时(" + evt.type + ")";
+            responseHandler({});
+            request.close();
+        }
+        function error_abort(evt) {
+            localStorage.state = "网络中断(" + evt.type + ")";
+            responseHandler({});
+        }
+        function error_error(evt) {
+            localStorage.state = "网络连接错误(" + evt.type + ")";
+            responseHandler({});
+        }
+    });
+    return promise;
+}
+
+function ipgwNew(operation){
+    currOperation = operation;
+    var loginArgs = "&username=" + localStorage.user + "&password=" + localStorage.passwd + "&iprange=no";
+
+    if (operation === 'checkmail') {
+      request('GET', 'checkmail').then(checkmail_callback);
+    }
+    //request('GET', 'initialize')
+        //.then(() => { return request('POST', 'login', loginArgs); })
+    request('POST', 'login', loginArgs)
+        .then(() => { 
+            switch (currOperation) {
+                case 'connect': 
+                    return request('GET', 'connect');
+                case 'disconnect': 
+                    return request('GET', 'disconnect');
+                case 'disconnectall': 
+                    return request('GET', 'disconnectall');
+            }})
+        .then(connectCallback);
+}
+
+function checkmail_callback(responseText){
+    if (responseText !== "0\n") {
+        unreadMails = parseInt(responseText);
+        text = '收件箱有 ' + unreadMails + ' 封未读邮件';
+        icon = '/public/img/icon48.png';
+        showNotification(icon, '未读邮件', text);
     }
 }
-function op_show(){
-    req = new XMLHttpRequest();
-    req.open("GET", "https://its.pku.edu.cn/netportal/ITSipgw?cmd=getconnections", "true");
-    req.send(null);
-}
 
-function ipgwclient(operation) {
-    cur_operation = operation;
-    var range, oper;
-    switch (operation) {
-        case "free":
-            range = 2;
-            oper = "connect";
-            break;
-        case "global":
-            range = 1;
-            oper = "connect";
-            break;
-        case "disconnect":
-            range = 2;
-            oper = "disconnectall";
-            break;
-        default:
-            return;
-    }
-    req = new XMLHttpRequest();
-    req.timeout = 7000;
-    req.open("GET", "https://its.pku.edu.cn:5428/ipgatewayofpku?" + "uid=" + localStorage.user + "&password=" + localStorage.passwd + "&timeout=1&range=" + range + "&operation=" + oper, "true");
-    req.onload = connect_callback;
-    req.ontimeout = error_timeout;
-    req.onabort = error_abort;
-    req.onerror = error_error;
-    req.send(null);
-}
-
-//get information dict from response string
-function get_info_from_response(response) {
-    var infos = response.split("<!--IPGWCLIENT_START ")[1].split(" IPGWCLIENT_END-->")[0].split(" "),
-        connect_info = [], tmp;
-
-    for (i = 0; i < infos.length; i++) {
-        tmp = infos[i].split("=");
-        if (tmp[0].trim() && tmp[1].trim())
-            connect_info[tmp[0]] = tmp[1];
-    }
-
-    //parse REASON
-    connect_info.REASON = connect_info.REASON && connect_info.REASON.replace("<br>", " ");
-
-    return connect_info;
-}
 function op_getinfo(){
     var status = new XMLHttpRequest();
     status.open("GET", "https://its.pku.edu.cn/netportal/ipgwResult.jsp", "false");
@@ -141,25 +96,22 @@ function op_getinfo(){
 }
 
 function parseResponse(response) {
-    var infos = response, connect_info = [], tmps, tmpe;
-    tmps = response.search("姓　　名：");
-    tmpe = tmps+25;
-    while(infos[tmpe] != '<')
-        tmpe++;
-    connect_info.USERNAME = infos.substring(tmps + 25, tmpe);
-    tmps = response.search("当前地址：");
-    tmpe = tmps+25;
-    while(infos[tmpe] != '<')
-        tmpe++;
-    connect_info.IP = infos.substring(tmps + 25, tmpe);
-    tmps = response.search("账户余额：");
-    tmpe = tmps+25;
-    while(infos[tmpe] != '<')
-        tmpe++;
-    connect_info.BALANCE = infos.substring(tmps + 25, tmpe);
-    console.log(connect_info.USERNAME);
-    console.log(connect_info.IP);
-    console.log(connect_info.BALANCE);
+    var tempDom = document.createElement('div');
+    var connectInfo = [];
+    tempDom.innerHTML = response;
+    mainTable = tempDom.querySelectorAll('tr[align=center] table');
+    
+    if (mainTable[0].getElementsByTagName('td')[0].innerHTML.split('<')[0] === '网络连接成功') {
+        var statusText = mainTable[1].querySelectorAll('td[align=left]');
+        connectInfo.SUCCESS = 'YES'; 
+        connectInfo.USERNAME = statusText[0].innerHTML;
+        connectInfo.IP = statusText[1].innerHTML;
+        connectInfo.BALANCE = statusText[2].innerHTML;
+    } else if (mainTable[0].getElementsByTagName('td')[0].innerHTML.split('<')[0] === '连接失败') {
+        connectInfo.SUCCESS = 'NO';
+        connectInfo.REASON = mainTable[1].getElementsByTagName('td')[0].innerHTML.trim();
+    }
+    return connectInfo;
 }
 
 function showNotification(icon, title, text) {
@@ -182,48 +134,46 @@ function showNotification(icon, title, text) {
 }
 
 //connect result
-function connect_callback() {
-    var info = get_info_from_response(req.responseText),
+function connectCallback(response) {
+    var info = parseResponse(response),
         icon = "icon.ico", text = "";
 
     if (info.SUCCESS == "YES") {
-        switch (cur_operation) {
-            case "free":
+        switch (currOperation) {
+            case "connect":
                 localStorage.state = "网络连接成功（免费）";
                 text = "用户：" + info.USERNAME + "\n" +
                     "余额：" + info.BALANCE + "元\n" +
                     "IP：" + info.IP;
                 icon = "public/img/icon48.png";
                 break;
-            case "global":
+            case "disconnect":
                 localStorage.state = "网络连接成功（收费）";
                 text = "用户：" + info.USERNAME + "\n" +
                     "余额：" + info.BALANCE + "元\n" + 
                     "IP：" + info.IP;
-                if(info.FR_TIME) //包月不限时时，FR_TIME字段不存在
-                    text += '\n' + "包月累计时长：" + info.FR_TIME + "小时";
                 icon = "background/succ.ico";
                 break;
-            case "disconnect":
+            case "disconnectall":
                 localStorage.state = "断开全部连接成功";
                 text = "IP：" + info.IP;
                 icon = "background/disc.ico";
                 break;
-            if(unreadmails !== 0)
+            if (unreadmails !== 0)
                 text += "\n" + "您有" + unreadmails + "条未读邮件";
         }
     } else {
         text += "原因：" + info.REASON;
-        switch (cur_operation) {
-            case "free":
-                localStorage.state = "网络连接失败";
-                icon = "background/busy.ico";
-                break;
-            case "global":
+        switch (currOperation) {
+            case "connect":
                 localStorage.state = "网络连接失败";
                 icon = "background/busy.ico";
                 break;
             case "disconnect":
+                localStorage.state = "断开连接失败";
+                icon = "background/busy.ico";
+                break;
+            case "disconnectall":
                 localStorage.state = "断开全部连接失败";
                 icon = "background/busy.ico";
                 break;
@@ -231,46 +181,20 @@ function connect_callback() {
     }
 
     showNotification(icon, localStorage.state, text);
-    response_handle({});
-    closing_handle();
-}
-
-function get_default_string(info) {
-    var text = "";
-    for (var key in info) {
-        var value = info[key];
-        if (mappings[key]) key = mappings[key];
-        if (mappings[value]) value = mappings[value];
-        text = text + key + ":" + value + "； ";
-    }
-    return text;
-}
-
-function error_timeout(evt) {
-    localStorage.state = "网络连接超时(" + evt.type + ")";
-    response_handle({});
-}
-
-function error_abort(evt) {
-    localStorage.state = "网络中断(" + evt.type + ")";
-    response_handle({});
-}
-
-function error_error(evt) {
-    localStorage.state = "网络连接错误(" + evt.type + ")";
-    response_handle({});
+    responseHandler({});
+    closingHandler();
 }
 
 chrome.extension.onRequest.addListener(
     function(request, sender, sendResponse) {
-        if(request.method === 'operation'){
-            response_handle = sendResponse;
-            if (request.connect_operation) {
-                //ipgwclient(request.connect_operation);
-                ipgwNew(request.connect_operation);
+        if (request.method === 'operation') {
+            responseHandler = sendResponse;
+            if (request.connectOperation) {
+                ipgwNew(request.connectOperation);
             }
         }
-        else if(request.method === 'closing'){
-            closing_handle = sendResponse;
+        else if (request.method === 'closing') {
+            closingHandler = sendResponse;
         }
-    });
+    }
+);
