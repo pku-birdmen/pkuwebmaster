@@ -28,6 +28,7 @@ function request(method, action, args) {
         if (method === 'GET') {
             request.send(null);
         } else if (method === 'POST') {
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8')
             request.send(args);
         }
         function onloadCallback() {
@@ -56,28 +57,33 @@ function request(method, action, args) {
 
 function ipgwNew(operation){
     currOperation = operation;
-    var loginArgs = "&username=" + localStorage.user + "&password=" + localStorage.passwd + "&iprange=no";
-
+    var loginArgs = "username=" + localStorage.user + "&password=" + localStorage.passwd + "&iprange=no";
     if (operation === 'checkmail') {
-      request('GET', 'checkmail').then(checkmail_callback);
+        //request('GET', 'initialize')
+            //.then(() => { return request('POST', 'login', loginArgs); })
+      request('POST', 'login', loginArgs)
+          .then(() => { return request('GET', 'checkmail'); })
+          .then(checkmailCallback);
+    } else {
+        //request('GET', 'initialize')
+            //.then(() => { return request('POST', 'login', loginArgs); })
+        request('POST', 'login', loginArgs)
+            .then(() => { 
+                switch (currOperation) {
+                    case 'connect': 
+                        return request('GET', 'connect');
+                    case 'disconnect': 
+                        return request('GET', 'disconnect');
+                    case 'disconnectall': 
+                        return request('GET', 'disconnectall');
+                }})
+            .then(connectCallback);
     }
-    //request('GET', 'initialize')
-        //.then(() => { return request('POST', 'login', loginArgs); })
-    request('POST', 'login', loginArgs)
-        .then(() => { 
-            switch (currOperation) {
-                case 'connect': 
-                    return request('GET', 'connect');
-                case 'disconnect': 
-                    return request('GET', 'disconnect');
-                case 'disconnectall': 
-                    return request('GET', 'disconnectall');
-            }})
-        .then(connectCallback);
 }
 
-function checkmail_callback(responseText){
+function checkmailCallback(responseText){
     if (responseText !== "0\n") {
+        localStorage.state = "";
         unreadMails = parseInt(responseText);
         text = '收件箱有 ' + unreadMails + ' 封未读邮件';
         icon = '/public/img/icon48.png';
@@ -89,7 +95,7 @@ function op_getinfo(){
     var status = new XMLHttpRequest();
     status.open("GET", "https://its.pku.edu.cn/netportal/ipgwResult.jsp", "false");
     status.send(null);
-    status.onload = function(){
+    status.onload = function() {
         var stat = status.responseText;
         parseResponse(stat);
     }
@@ -104,9 +110,9 @@ function parseResponse(response) {
     if (mainTable[0].getElementsByTagName('td')[0].innerHTML.split('<')[0] === '网络连接成功') {
         var statusText = mainTable[1].querySelectorAll('td[align=left]');
         connectInfo.SUCCESS = 'YES'; 
-        connectInfo.USERNAME = statusText[0].innerHTML;
-        connectInfo.IP = statusText[1].innerHTML;
-        connectInfo.BALANCE = statusText[2].innerHTML;
+        connectInfo.USERNAME = statusText[0].innerHTML.trim();
+        connectInfo.IP = statusText[1].innerHTML.trim();
+        connectInfo.BALANCE = statusText[4].innerText.trim();
     } else if (mainTable[0].getElementsByTagName('td')[0].innerHTML.split('<')[0] === '连接失败') {
         connectInfo.SUCCESS = 'NO';
         connectInfo.REASON = mainTable[1].getElementsByTagName('td')[0].innerHTML.trim();
@@ -143,16 +149,14 @@ function connectCallback(response) {
             case "connect":
                 localStorage.state = "网络连接成功（免费）";
                 text = "用户：" + info.USERNAME + "\n" +
-                    "余额：" + info.BALANCE + "元\n" +
+                    "余额：" + info.BALANCE + "\n" +
                     "IP：" + info.IP;
                 icon = "public/img/icon48.png";
                 break;
             case "disconnect":
-                localStorage.state = "网络连接成功（收费）";
-                text = "用户：" + info.USERNAME + "\n" +
-                    "余额：" + info.BALANCE + "元\n" + 
-                    "IP：" + info.IP;
-                icon = "background/succ.ico";
+                localStorage.state = "断开当前连接成功";
+                text = "IP：" + info.IP;
+                icon = "background/disc.ico";
                 break;
             case "disconnectall":
                 localStorage.state = "断开全部连接成功";

@@ -4,6 +4,10 @@ body {
   margin: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 #welcome{
   padding: 5px;
   work-break: break-all;

@@ -9,7 +9,7 @@ window.onload = function() {
 
     $welcome = document.getElementById("welcome");
     $operation = document.getElementById("operation");
-    $state = document.getElementById("$state");
+    $state = document.getElementById("state");
 
     //first run: check configuration & initial variables
     if (!user || !passwd) {
@@ -23,9 +23,9 @@ window.onload = function() {
         $state.style.display = '';
 
         bindOnclick('connect', "正在连接...");
-        bindOnclick('disconnet', "正在断开...");
+        bindOnclick('disconnect', "正在断开...");
         bindOnclick('disconnectall', "正在断开全部连接...");
-        bindOnclick('checkmail', "正在断开全部连接...");
+        bindOnclick('checkmail', "正在查看邮件...");
         updateState();
     }
 };
@@ -40,7 +40,7 @@ function bindOnclick(buttonName, stateText) {
         localStorage.state = stateText;
         chrome.extension.sendRequest({
             connectOperation: buttonName,
-            method: '$operation'
+            method: 'operation'
         }, function(resp) {
             updateState();
         });
