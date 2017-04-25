@@ -28,7 +28,7 @@ function request(method, action, args) {
         if (method === 'GET') {
             request.send(null);
         } else if (method === 'POST') {
-            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8')
+            request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=UTF-8');
             request.send(args);
         }
         function onloadCallback() {
@@ -39,25 +39,25 @@ function request(method, action, args) {
             }
         }
         function error_timeout(evt) {
-            localStorage.state = "网络连接超时(" + evt.type + ")";
+            localStorage.state = '网络连接超时(' + evt.type + ')';
             responseHandler({});
             request.close();
         }
         function error_abort(evt) {
-            localStorage.state = "网络中断(" + evt.type + ")";
+            localStorage.state = '网络中断(' + evt.type + ')';
             responseHandler({});
         }
         function error_error(evt) {
-            localStorage.state = "网络连接错误(" + evt.type + ")";
+            localStorage.state = '网络连接错误(' + evt.type + ')';
             responseHandler({});
         }
     });
     return promise;
 }
 
-function ipgwNew(operation){
+function ipgwNew(operation) {
     currOperation = operation;
-    var loginArgs = "username=" + localStorage.user + "&password=" + localStorage.passwd + "&iprange=no";
+    var loginArgs = 'username=' + localStorage.user + '&password=' + localStorage.passwd + '&iprange=no';
     if (operation === 'checkmail') {
         //request('GET', 'initialize')
             //.then(() => { return request('POST', 'login', loginArgs); })
@@ -82,8 +82,8 @@ function ipgwNew(operation){
 }
 
 function checkmailCallback(responseText){
-    if (responseText !== "0\n") {
-        localStorage.state = "";
+    if (responseText !== '0\n') {
+        localStorage.state = '';
         unreadMails = parseInt(responseText);
         text = '收件箱有 ' + unreadMails + ' 封未读邮件';
         icon = '/public/img/icon48.png';
@@ -93,7 +93,7 @@ function checkmailCallback(responseText){
 
 function op_getinfo(){
     var status = new XMLHttpRequest();
-    status.open("GET", "https://its.pku.edu.cn/netportal/ipgwResult.jsp", "false");
+    status.open('GET', 'https://its.pku.edu.cn/netportal/ipgwResult.jsp', 'false');
     status.send(null);
     status.onload = function() {
         var stat = status.responseText;
@@ -105,15 +105,18 @@ function parseResponse(response) {
     var tempDom = document.createElement('div');
     var connectInfo = [];
     tempDom.innerHTML = response;
-    mainTable = tempDom.querySelectorAll('tr[align=center] table');
-    
-    if (mainTable[0].getElementsByTagName('td')[0].innerHTML.split('<')[0] === '网络连接成功') {
+    var mainTable = tempDom.querySelectorAll('tr[align=center] table');
+    var statusText = mainTable[0].getElementsByTagName('td')[0].innerHTML.split('<')[0].trim();
+     
+    if (statusText === '网络连接成功') {
         var statusText = mainTable[1].querySelectorAll('td[align=left]');
         connectInfo.SUCCESS = 'YES'; 
         connectInfo.USERNAME = statusText[0].innerHTML.trim();
         connectInfo.IP = statusText[1].innerHTML.trim();
         connectInfo.BALANCE = statusText[4].innerText.trim();
-    } else if (mainTable[0].getElementsByTagName('td')[0].innerHTML.split('<')[0] === '连接失败') {
+    } else if (statusText === '断开本机连接成功' || statusText === '断开全部连接成功') {
+        connectInfo.SUCCESS = 'YES';
+    } else if (statusText === '连接失败') {
         connectInfo.SUCCESS = 'NO';
         connectInfo.REASON = mainTable[1].getElementsByTagName('td')[0].innerHTML.trim();
     }
@@ -122,14 +125,14 @@ function parseResponse(response) {
 
 function showNotification(icon, title, text) {
     if (!Notification) return alert('您的浏览器不支持桌面通知');
-    if (Notification.permission !== "granted") Notification.requestPermission();
+    if (Notification.permission !== 'granted') Notification.requestPermission();
 
     var notification = new Notification(title, {
         icon: icon,
         body: text
     });
 
-    notification.replaceId = "connect_result";
+    notification.replaceId = 'connect_result';
     notification.onshow = function(event) {
         setTimeout(function() {
             notification.close();
@@ -142,44 +145,42 @@ function showNotification(icon, title, text) {
 //connect result
 function connectCallback(response) {
     var info = parseResponse(response),
-        icon = "icon.ico", text = "";
+        icon = 'icon.ico', text = '';
 
-    if (info.SUCCESS == "YES") {
+    if (info.SUCCESS == 'YES') {
         switch (currOperation) {
-            case "connect":
-                localStorage.state = "网络连接成功（免费）";
-                text = "用户：" + info.USERNAME + "\n" +
-                    "余额：" + info.BALANCE + "\n" +
-                    "IP：" + info.IP;
-                icon = "public/img/icon48.png";
+            case 'connect':
+                localStorage.state = '网络连接成功（免费）';
+                text = '用户：' + info.USERNAME + '\n' +
+                    '余额：' + info.BALANCE + '\n' +
+                    'IP：' + info.IP;
+                icon = 'public/img/icon48.png';
                 break;
-            case "disconnect":
-                localStorage.state = "断开当前连接成功";
-                text = "IP：" + info.IP;
-                icon = "background/disc.ico";
+            case 'disconnect':
+                localStorage.state = '断开当前连接成功';
+                icon = 'background/disc.ico';
                 break;
-            case "disconnectall":
-                localStorage.state = "断开全部连接成功";
-                text = "IP：" + info.IP;
-                icon = "background/disc.ico";
+            case 'disconnectall':
+                localStorage.state = '断开全部连接成功';
+                icon = 'background/disc.ico';
                 break;
             if (unreadmails !== 0)
-                text += "\n" + "您有" + unreadmails + "条未读邮件";
+                text += '\n' + '您有' + unreadmails + '条未读邮件';
         }
     } else {
-        text += "原因：" + info.REASON;
+        text += '原因：' + info.REASON;
         switch (currOperation) {
-            case "connect":
-                localStorage.state = "网络连接失败";
-                icon = "background/busy.ico";
+            case 'connect':
+                localStorage.state = '网络连接失败';
+                icon = 'background/busy.ico';
                 break;
-            case "disconnect":
-                localStorage.state = "断开连接失败";
-                icon = "background/busy.ico";
+            case 'disconnect':
+                localStorage.state = '断开连接失败';
+                icon = 'background/busy.ico';
                 break;
-            case "disconnectall":
-                localStorage.state = "断开全部连接失败";
-                icon = "background/busy.ico";
+            case 'disconnectall':
+                localStorage.state = '断开全部连接失败';
+                icon = 'background/busy.ico';
                 break;
         }
     }
