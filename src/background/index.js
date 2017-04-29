@@ -82,13 +82,13 @@ function ipgwNew(operation) {
 }
 
 function checkmailCallback(responseText){
-    if (responseText !== '0\n') {
-        localStorage.state = '';
-        unreadMails = parseInt(responseText);
-        text = '收件箱有 ' + unreadMails + ' 封未读邮件';
-        icon = '/public/img/icon48.png';
-        showNotification(icon, '未读邮件', text);
-    }
+    localStorage.state = '';
+    unreadMails = parseInt(responseText);
+    text = '收件箱有 ' + unreadMails + ' 封未读邮件';
+    icon = '/public/img/icon48.png';
+    showNotification(icon, '未读邮件', text);
+    responseHandler({});
+    closingHandler();
 }
 
 function op_getinfo(){
